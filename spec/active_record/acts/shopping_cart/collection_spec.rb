@@ -130,6 +130,7 @@ describe ActiveRecord::Acts::ShoppingCart::Collection do
     context "cart has no items" do
       before do
         subject.stub(:shopping_cart_items).and_return([])
+        subject.stub(:currency).and_return("usd")
       end
 
       it "returns 0" do
@@ -151,6 +152,7 @@ describe ActiveRecord::Acts::ShoppingCart::Collection do
 
   describe :shipping_cost do
     it "returns 0" do
+      subject.stub(:currency).and_return("usd")
       subject.shipping_cost.should eq(0)
     end
   end
