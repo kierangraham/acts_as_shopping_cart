@@ -70,7 +70,7 @@ module ActiveRecord
         # or we fall back onto the Money.default_currency
         def currency
           if shopping_cart_items.count > 0
-            shopping_cart_items.first.class.price_currency
+            shopping_cart_items.first.price_currency
           else
             self.class.currency || Money.default_currency
           end
