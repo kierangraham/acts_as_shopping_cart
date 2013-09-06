@@ -49,7 +49,7 @@ module ActiveRecord
         # Returns the subtotal by summing the price times quantity for all the items in the cart
         #
         def subtotal
-          ("%.2f" % shopping_cart_items.inject(0) { |sum, item| sum += (item.price * item.quantity) }).to_f
+          ("%.2f" % shopping_cart_items.inject(Money.new(0, currency)) { |sum, item| sum += (item.price * item.quantity) }).to_f
         end
 
         def shipping_cost
@@ -69,6 +69,10 @@ module ActiveRecord
         #
         def total
           ("%.2f" % (self.subtotal + self.taxes + self.shipping_cost)).to_f
+        end
+
+        def currency
+          "USD"
         end
 
         #
