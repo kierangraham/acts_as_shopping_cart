@@ -26,8 +26,8 @@ describe ActiveRecord::Acts::ShoppingCart::Collection do
       end
 
       it "creates a new shopping cart item" do
-        subject.shopping_cart_items.should_receive(:create).with(:item => object, :price => 19.99, :quantity => 3)
-        subject.add(object, 19.99, 3)
+        subject.shopping_cart_items.should_receive(:create).with(:item => object, :price => 19.99.to_money, :quantity => 3)
+        subject.add(object, 19.99.to_money, 3)
       end
     end
 
@@ -37,8 +37,8 @@ describe ActiveRecord::Acts::ShoppingCart::Collection do
       end
 
       it "creates a new shopping cart item non-cumulatively" do
-        subject.shopping_cart_items.should_receive(:create).with(:item => object, :price => 19.99, :quantity => 3)
-        subject.add(object, 19.99, 3, false)
+        subject.shopping_cart_items.should_receive(:create).with(:item => object, :price => 19.99.to_money, :quantity => 3)
+        subject.add(object, 19.99.to_money, 3, false)
       end
     end
 
@@ -49,7 +49,7 @@ describe ActiveRecord::Acts::ShoppingCart::Collection do
 
       it "updates the quantity for the item" do
         shopping_cart_item.should_receive(:quantity=).with(5)
-        subject.add(object, 19.99, 3)
+        subject.add(object, 19.99.to_money, 3)
       end
     end
 
@@ -60,7 +60,7 @@ describe ActiveRecord::Acts::ShoppingCart::Collection do
 
       it "updates the quantity for the item non-cumulatively" do
         shopping_cart_item.should_receive(:quantity=).with(3) # not 5
-        subject.add(object, 19.99, 3, false)
+        subject.add(object, 19.99.to_money, 3, false)
       end
     end
   end
@@ -139,7 +139,7 @@ describe ActiveRecord::Acts::ShoppingCart::Collection do
 
     context "cart has items" do
       before do
-        items = [stub(:quantity => 2, :price => 33.99), stub(:quantity => 1, :price => 45.99)]
+        items = [stub(:quantity => 2, :price => 33.99.to_money), stub(:quantity => 1, :price => 45.99.to_money)]
         subject.stub(:shopping_cart_items).and_return(items)
       end
 
@@ -158,30 +158,30 @@ describe ActiveRecord::Acts::ShoppingCart::Collection do
   describe :taxes do
     context "subtotal is 100" do
       before do
-        subject.stub(:subtotal).and_return(100)
+        subject.stub(:subtotal).and_return(100.to_money)
       end
 
       it "returns 8.25" do
-        subject.taxes.should eq(8.25)
+        subject.taxes.should eq(8.25.to_money)
       end
     end
   end
 
   describe :tax_pct do
     it "returns 8.25" do
-      subject.tax_pct.should eq(8.25)
+      subject.tax_pct.should eq(8.25.to_money)
     end
   end
 
   describe :total do
     before do
-      subject.stub(:subtotal).and_return(10.99)
-      subject.stub(:taxes).and_return(13.99)
-      subject.stub(:shipping_cost).and_return(12.99)
+      subject.stub(:subtotal).and_return(10.99.to_money)
+      subject.stub(:taxes).and_return(13.99.to_money)
+      subject.stub(:shipping_cost).and_return(12.99.to_money)
     end
 
     it "returns subtotal + taxes + shipping_cost" do
-      subject.total.should eq(37.97)
+      subject.total.should eq(37.97.to_money)
     end
   end
 
