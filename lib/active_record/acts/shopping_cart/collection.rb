@@ -49,11 +49,11 @@ module ActiveRecord
         # Returns the subtotal by summing the price times quantity for all the items in the cart
         #
         def subtotal
-          shopping_cart_items.inject(0.to_money) { |sum, item| sum += (item.price * item.quantity) }
+          shopping_cart_items.inject(Money.new(0, currency)) { |sum, item| sum += (item.price * item.quantity) }
         end
 
         def shipping_cost
-          0
+          Money.new(0, currency)
         end
 
         def taxes
@@ -62,6 +62,18 @@ module ActiveRecord
 
         def tax_pct
           8.25
+        end
+
+        # hacky way to get currency
+        # we either get it from the `price_currency` column
+        # or we get it from the `register_currency` in the cart class
+        # or we fall back onto the Money.default_currency
+        def currency
+          if shopping_cart_items.count > 0
+            shopping_cart_items.first.class.price_currency
+          else
+            self.class.currency || Money.default_currency
+          end
         end
 
         #

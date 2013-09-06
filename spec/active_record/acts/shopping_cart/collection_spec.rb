@@ -139,7 +139,7 @@ describe ActiveRecord::Acts::ShoppingCart::Collection do
 
     context "cart has items" do
       before do
-        items = [stub(:quantity => 2, :price => 33.99.to_money), stub(:quantity => 1, :price => 45.99.to_money)]
+        items = [stub(:quantity => 2, :price => 33.99.to_money, :price_currency => "USD"), stub(:quantity => 1, :price => 45.99.to_money, :price_currency => "USD")]
         subject.stub(:shopping_cart_items).and_return(items)
       end
 
