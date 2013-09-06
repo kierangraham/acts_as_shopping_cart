@@ -133,7 +133,7 @@ describe ActiveRecord::Acts::ShoppingCart::Collection do
       end
 
       it "returns 0" do
-        subject.subtotal.should eq(0)
+        subject.subtotal.should eq(0.to_money)
       end
     end
 
@@ -144,7 +144,7 @@ describe ActiveRecord::Acts::ShoppingCart::Collection do
       end
 
       it "returns the sum of the price * quantity for all items" do
-        subject.subtotal.should eq(113.97)
+        subject.subtotal.should eq(113.97.to_money)
       end
     end
   end

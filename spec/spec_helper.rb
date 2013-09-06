@@ -8,6 +8,7 @@ require 'simplecov'
 require 'active_record'
 
 require 'acts_as_shopping_cart'
+require 'money'
 
 SimpleCov.start
 

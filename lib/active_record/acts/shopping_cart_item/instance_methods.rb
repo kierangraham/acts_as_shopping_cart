@@ -6,7 +6,7 @@ module ActiveRecord
         # Returns the subtotal, multiplying the quantity times the price of the item.
         #
         def subtotal
-          ("%.2f" % (self.quantity * self.price)).to_f
+            self.quantity * self.price
         end
 
         #
